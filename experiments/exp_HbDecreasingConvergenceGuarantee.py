@@ -1,14 +1,12 @@
-
-
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
 
-from PAC_Bayes.optimization_algorithms import heavy_ball_const_hyperparam, heavy_ball_const_hyperparam_with_iterates
-from Problems.parametric_problems import setup_quadratic_with_variable_curvature_with_rand_perm
-from PAC_Bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
-from PAC_Bayes.Prior import iterative_prior
-from PAC_Bayes.Helper.helper_functions import empirical_convergence_risk, converged, empirical_conv_estimates, set_size
+from algorithms.optimization_algorithms import heavy_ball_const_hyperparam, heavy_ball_const_hyperparam_with_iterates
+from problems.parametric_problems import setup_quadratic_with_variable_curvature_with_rand_perm
+from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
+from pac_bayes.Prior import iterative_prior
+from helper.helper_functions import empirical_convergence_risk, converged, empirical_conv_estimates, set_size
 
 
 def get_sufficient_statistics(emp_conv_est, num_problems_train):
@@ -65,11 +63,9 @@ def exp_HB_decreasing_convergence_guarantee():
     mu = torch.ones((num_problems_prior + num_problems_train + num_problems_test,)) * mu
 
     # Create quadratic problems with variing right-hand side and operator
-    param_problem, loss_func, grad_func = setup_quadratic_with_variable_curvature_with_rand_perm(dim=dim,
-                                                                                                 N_prior=num_problems_prior,
-                                                                                                 N_train=num_problems_train,
-                                                                                                 N_test=num_problems_test,
-                                                                                                 mu=mu, L=L)
+    param_problem, loss_func, grad_func = setup_quadratic_with_variable_curvature_with_rand_perm(
+        dim=dim, n_prior=num_problems_prior, n_train=num_problems_train, n_test=num_problems_test,
+        strong_convexity=mu, smoothness=L)
 
     # Get algorithm, standard hyperparameter and dictionary for prior
     algorithm, algorithm_with_iterates = heavy_ball_const_hyperparam, heavy_ball_const_hyperparam_with_iterates

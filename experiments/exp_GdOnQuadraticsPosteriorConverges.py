@@ -1,16 +1,15 @@
-
 import torch
 import matplotlib.pyplot as plt
 
-from PAC_Bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
-from PAC_Bayes.optimization_algorithms import gradient_descent_const_step, gradient_descent_const_step_with_iterates
-from PAC_Bayes.Helper.helper_functions import empirical_risk, empirical_sq_risk, set_size
-from Problems.parametric_problems import setup_random_quadratic_problems_with_fixed_curvature
+from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
+from algorithms.optimization_algorithms import gradient_descent_const_step, gradient_descent_const_step_with_iterates
+from helper.helper_functions import empirical_risk, empirical_sq_risk, set_size
+from problems.parametric_problems import setup_random_quadratic_problems_with_fixed_curvature
 
 
 # Experiment to show evolving posterior distibution.
-# This is done to show that for an increasing number of steps, the constant step-size distribution should converge (peak around)
-# the analytical optimal step-size.
+# This is done to show that for an increasing number of steps, the constant step-size distribution should converge (
+# peak around) the analytical optimal step-size.
 def exp_const_step_gd_distribution():
 
     # # Setup style for paper
@@ -44,7 +43,8 @@ def exp_const_step_gd_distribution():
     dim = 50
     N_prior, N_train, N_test = 50, 200, 50
     num_samples_prior = 500
-    param_problem, loss_func, grad_func, _, _, lamb_min, lamb_max = setup_random_quadratic_problems_with_fixed_curvature(dim, N_prior, N_train, N_test)
+    param_problem, loss_func, grad_func, lamb_min, lamb_max = setup_random_quadratic_problems_with_fixed_curvature(
+        dim=dim, n_prior=N_prior, n_train=N_train, n_test=N_test, n_validation=0)
     x_0 = torch.zeros(dim)
     eps = torch.tensor(0.01)
 
@@ -103,10 +103,9 @@ def exp_const_step_gd_distribution():
                color=std_cls_color, linestyle='dashed', label='$\\frac{1}{L}$')
     ax.set(xlabel='$\\alpha$')
     ax.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
-    #ax.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
     ax.legend()
 
-    PATH = '/home/michael/Desktop/Figures/AISTATS2023/'
+    PATH = '/home/michael/Desktop/AISTATS_2023/experiments/convergence_of_posterior/'
     plt.savefig(PATH + 'GD_posterior_distribution.pdf', dpi=300, bbox_inches='tight')
 
     plt.show()
