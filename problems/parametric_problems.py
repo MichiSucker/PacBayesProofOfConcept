@@ -1,3 +1,5 @@
+from typing import Tuple, Callable
+
 import torch
 import numpy as np
 
@@ -31,12 +33,14 @@ def setup_quadratic_with_variable_curvature_without_rand_perm(dim, N_prior, N_tr
     return param_problem, loss_func, grad_func
 
 
-def setup_random_quadratic_problems_with_fixed_curvature(dim, n_prior, n_train, n_validation, n_test):
+def setup_random_quadratic_problems_with_fixed_curvature(
+        dim: int,
+        n_prior: int, n_train: int, n_test: int) -> Tuple[dict, Callable, Callable, torch.Tensor, torch.Tensor]:
 
     # Shape of quadratic
     A = torch.distributions.uniform.Uniform(-10, 10).sample((dim, dim))
-    eigvals = torch.linalg.eigvalsh(A.T @ A)
-    lamb_min, lamb_max = eigvals[0], eigvals[-1]
+    eigenvalues = torch.linalg.eigvalsh(A.T @ A)
+    lamb_min, lamb_max = eigenvalues[0], eigenvalues[-1]
     assert 0 < lamb_min < lamb_max
 
     # Sample rhs of quadratic problem
@@ -47,7 +51,6 @@ def setup_random_quadratic_problems_with_fixed_curvature(dim, n_prior, n_train, 
     B_train = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_train,))
     B_prior = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_prior,))
     B_test = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_test,))
-    B_val = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_validation,))
 
     # Specify loss function
     def loss_function(x, parameter):
@@ -60,7 +63,6 @@ def setup_random_quadratic_problems_with_fixed_curvature(dim, n_prior, n_train, 
     parameters = {
         'prior': np.array([{'A': A, 'b': B_prior[i, :]} for i in range(n_prior)]),
         'train': np.array([{'A': A, 'b': B_train[i, :]} for i in range(n_train)]),
-        'validation': np.array([{'A': A, 'b': B_val[i, :]} for i in range(n_validation)]),
         'test': np.array([{'A': A, 'b': B_test[i, :]} for i in range(n_test)])
     }
 
