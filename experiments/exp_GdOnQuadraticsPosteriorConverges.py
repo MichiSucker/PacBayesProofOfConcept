@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 from typing import Callable, Tuple, List
 
-from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
+from pac_bayes.pac_bayes_optimizer import pac_bayes_optimizer
 from algorithms.optimization_algorithms import gradient_descent_const_step, gradient_descent_const_step_with_iterates
 from helper.for_estimation import empirical_risk, empirical_sq_risk
 from helper.for_plotting import set_size

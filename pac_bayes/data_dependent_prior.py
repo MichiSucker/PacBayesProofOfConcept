@@ -1,7 +1,7 @@
 from typing import Callable, Tuple
 import torch
 from tqdm import tqdm
-from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
+from pac_bayes.pac_bayes_optimizer import pac_bayes_optimizer
 
 
 def filter_samples_based_on_guarantee(samples_prior: dict,

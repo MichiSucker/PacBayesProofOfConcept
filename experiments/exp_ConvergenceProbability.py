@@ -5,7 +5,7 @@ from typing import Tuple, Callable
 
 from algorithms.optimization_algorithms import heavy_ball_const_hyperparam, heavy_ball_const_hyperparam_with_iterates
 from problems.parametric_problems import setup_quadratic_with_variable_curvature_with_rand_perm
-from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
+from pac_bayes.pac_bayes_optimizer import pac_bayes_optimizer
 from pac_bayes.data_dependent_prior import iterative_prior
 from helper.for_estimation import empirical_convergence_risk,  converged, empirical_conv_estimates
 from helper.for_plotting import set_size
