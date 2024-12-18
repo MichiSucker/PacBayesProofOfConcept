@@ -79,7 +79,7 @@ def setup_quadratic_with_variable_curvature_with_rand_perm(
                 for i in range(n_prior + n_train + n_test)]
     diagonal_prior = diagonal[:n_prior]
     diagonal_train = diagonal[n_prior:n_prior + n_train]
-    diagonal_test = diagonal[:n_prior + n_train]
+    diagonal_test = diagonal[n_prior + n_train:]
 
     # Sample rhs of quadratic problem
     mean = torch.distributions.uniform.Uniform(-5, 5).sample((dim, ))
