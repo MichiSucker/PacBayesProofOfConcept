@@ -69,17 +69,17 @@ def setup_random_quadratic_problems_with_fixed_curvature(
     return parameters, loss_function, grad_function, lamb_min, lamb_max
 
 
-def setup_quadratic_with_variable_curvature_with_rand_perm(dim, n_prior, n_train, n_validation, n_test,
-                                                            strong_convexity, smoothness):
+def setup_quadratic_with_variable_curvature_with_rand_perm(
+        dim: int, n_prior: int, n_train: int, n_test: int,
+        strong_convexity: torch.Tensor, smoothness: torch.Tensor) -> Tuple[dict, Callable, Callable]:
 
     # Create diagonal of quadratic matrix of the quadratic problem
     diagonal = [torch.linspace(torch.sqrt(strong_convexity[i]).item(),
                                torch.sqrt(smoothness[i]).item(), dim)[torch.randperm(dim)]
-                for i in range(n_prior + n_validation + n_train + n_test)]
+                for i in range(n_prior + n_train + n_test)]
     diagonal_prior = diagonal[:n_prior]
     diagonal_train = diagonal[n_prior:n_prior + n_train]
-    diagonal_validation = diagonal[n_prior + n_train:n_prior + n_train + n_validation]
-    diagonal_test = diagonal[n_prior + n_train + n_validation:]
+    diagonal_test = diagonal[:n_prior + n_train]
 
     # Sample rhs of quadratic problem
     mean = torch.distributions.uniform.Uniform(-5, 5).sample((dim, ))
@@ -89,18 +89,19 @@ def setup_quadratic_with_variable_curvature_with_rand_perm(dim, n_prior, n_train
     B_train = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_train,))
     B_prior = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_prior,))
     B_test = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_test,))
-    B_val = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((n_validation,))
 
     # Specify loss function
     def loss_function(x, parameter):
         return 0.5 * torch.linalg.norm(torch.matmul(parameter['A'], x) - parameter['b']) ** 2
 
+    def grad_function(x, parameter):
+        return torch.matmul(torch.t(parameter['A']), torch.matmul(parameter['A'], x) - parameter['b'])
+
     # Setup dict with all the parameters
     param_problem = {
-        'prior': [{'A': torch.diag(diagonal_prior[i]), 'b': B_prior[i, :]} for i in range(n_prior)],
-        'train': [{'A': torch.diag(diagonal_train[i]), 'b': B_train[i, :]} for i in range(n_train)],
-        'validation': [{'A': torch.diag(diagonal_validation[i]), 'b': B_val[i, :]} for i in range(n_validation)],
-        'test': [{'A': torch.diag(diagonal_test[i]), 'b': B_test[i, :]} for i in range(n_test)]
+        'prior': np.array([{'A': torch.diag(diagonal_prior[i]), 'b': B_prior[i, :]} for i in range(n_prior)]),
+        'train': np.array([{'A': torch.diag(diagonal_train[i]), 'b': B_train[i, :]} for i in range(n_train)]),
+        'test': np.array([{'A': torch.diag(diagonal_test[i]), 'b': B_test[i, :]} for i in range(n_test)])
     }
 
-    return param_problem, loss_function
+    return param_problem, loss_function, grad_function
