@@ -192,8 +192,9 @@ def compute_loss_over_iterations(
         test_data: list,
         num_iterations: int,
         with_print: bool = True) -> Tuple[torch.Tensor, torch.Tensor]:
-    iterates_learned = torch.zeros((len(test_data), num_iterations + 1))
-    iterates_std = torch.zeros((len(test_data), num_iterations + 1))
+
+    losses_learned = torch.zeros((len(test_data), num_iterations + 1))
+    losses_std = torch.zeros((len(test_data), num_iterations + 1))
     convergence = 0
 
     for i, p in enumerate(test_data):
@@ -206,38 +207,38 @@ def compute_loss_over_iterations(
             continue
         # If it didn't diverge, compare to standard version
         else:
-            iterates_std[i, :] = torch.stack(
+            losses_std[i, :] = torch.stack(
                 [loss_func(a, p) for a in algorithm_with_iterates(x_0, p, grad_func, std_hyperparams, num_iterations)])
-            iterates_learned[i, :] = it_learned
+            losses_learned[i, :] = it_learned
             convergence += 1
     conv_prob_test = 100 * convergence / len(test_data)
 
     if with_print:
-        print("Risk of Learned Hyperparameters = {:.2f}".format(torch.mean(iterates_learned[:, -1])))
+        print("Risk of Learned Hyperparameters = {:.2f}".format(torch.mean(losses_learned[:, -1])))
         print("Empirical Convergence Probability = {}".format(conv_prob_test))
-    return iterates_learned, iterates_std
+    return losses_learned, losses_std
 
 
 def add_results_to_plot(ax,
                         k: int,
-                        iterates_std: torch.Tensor,
-                        iterates_learned: torch.Tensor,
+                        losses_std: torch.Tensor,
+                        losses_learned: torch.Tensor,
                         markers: list,
                         colors: list,
                         conv_prob_strings: list,
                         mark_every: list):
 
-    iterates = np.arange(iterates_std.shape[1])
+    iterates = np.arange(losses_std.shape[1])
     if k == 0:
-        ax.plot(iterates, torch.mean(iterates_std, dim=0),
+        ax.plot(iterates, torch.mean(losses_std, dim=0),
                 color='black', linestyle='dashdot', label='$\\alpha_{std}$')
-        ax.plot(iterates, torch.median(iterates_std, dim=0).values,
+        ax.plot(iterates, torch.median(losses_std, dim=0).values,
                 color='black', linestyle='dotted')
 
-    ax.plot(iterates, torch.mean(iterates_learned, dim=0),
+    ax.plot(iterates, torch.mean(losses_learned, dim=0),
             color=colors[k], linestyle='dashdot', marker=markers[k], markevery=mark_every[k],
             label='$p(\\alpha)$ = ' + conv_prob_strings[k])
-    ax.plot(iterates, torch.median(iterates_learned, dim=0).values,
+    ax.plot(iterates, torch.median(losses_learned, dim=0).values,
             color=colors[k], linestyle='dotted', marker=markers[k], markevery=mark_every[k])
 
 
@@ -286,14 +287,14 @@ def exp_heavy_ball_with_decreasing_convergence_guarantee():
                                                       num_samples_prior=num_samples_prior,
                                                       batch_size_opt_lamb=num_problems_train, eps=eps)
 
-        iterates_learned, iterates_std = compute_loss_over_iterations(
+        losses_learned, losses_std = compute_loss_over_iterations(
             loss_func=loss_func, grad_func=grad_func, algorithm_with_iterates=algorithm_with_iterates, x_0=x_0,
             learned_hyperparameters=learned_hyperparameters, std_hyperparams=std_hyperparams,
             test_data=param_problem['test'], num_iterations=num_iterations
         )
 
-        add_results_to_plot(ax=ax, k=k, iterates_std=iterates_std, iterates_learned=iterates_learned,
-                            markers=markers, colors=colors, conv_prob_strings=conv_prob_strings, mark_every=mark_every)
+        add_results_to_plot(ax=ax, k=k, losses_std=losses_std, losses_learned=losses_learned, markers=markers,
+                            colors=colors, conv_prob_strings=conv_prob_strings, mark_every=mark_every)
 
     ax.set_yscale('log')
     ax.grid('on')
