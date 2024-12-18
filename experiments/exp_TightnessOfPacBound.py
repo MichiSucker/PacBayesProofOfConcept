@@ -53,18 +53,14 @@ def specify_setup() -> Tuple[int, torch.Tensor, int, torch.Tensor, torch.Tensor]
 
 
 def specify_size_of_datasets() -> Tuple[int, int, int]:
-    # num_problems_prior = 200
-    # num_problems_train = 1000
-    # num_problems_test = 200
-    num_problems_prior = 53
-    num_problems_train = 100
-    num_problems_test = 50
+    num_problems_prior = 200
+    num_problems_train = 1000
+    num_problems_test = 200
     return num_problems_prior, num_problems_train, num_problems_test
 
 
 def specify_number_of_samples_from_prior() -> int:
-    # num_samples_prior = 200
-    num_samples_prior = 59
+    num_samples_prior = 200
     return num_samples_prior
 
 
