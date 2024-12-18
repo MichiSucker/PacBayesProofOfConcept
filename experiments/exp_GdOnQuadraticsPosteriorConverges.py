@@ -114,7 +114,7 @@ def get_samples_and_density_for_plotting(samples_prior: torch.Tensor,
 # Experiment to show evolving posterior distribution.
 # This is done to show that for an increasing number of steps, the constant step-size distribution should converge (
 # peak around) the analytical optimal step-size.
-def exp_const_step_gd_distribution():
+def exp_posterior_distribution_of_const_step_gradient_descent():
 
     # Specify style for paper
     width = specify_plot_layout()
