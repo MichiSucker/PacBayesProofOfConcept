@@ -1,5 +1,11 @@
-from experiments.exp_GdOnQuadraticsPosteriorConverges import exp_const_step_gd_distribution
+from experiments.exp_GdOnQuadraticsPosteriorConverges import exp_posterior_distribution_of_const_step_gradient_descent
+from experiments.exp_HbDecreasingConvergenceGuarantee import exp_heavy_ball_with_decreasing_convergence_guarantee
+from experiments.exp_ConvergenceProbability import exp_heavy_ball_convergence_probability
+from experiments.exp_TightnessOfPacBound import exp_loss_histogram_with_pac_bound
 
 
 if __name__ == '__main__':
-    exp_const_step_gd_distribution()
+    exp_posterior_distribution_of_const_step_gradient_descent()
+    exp_heavy_ball_with_decreasing_convergence_guarantee()
+    exp_heavy_ball_convergence_probability()
+    exp_loss_histogram_with_pac_bound()
