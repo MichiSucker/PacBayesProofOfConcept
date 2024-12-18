@@ -56,7 +56,7 @@ def specify_size_of_datasets() -> Tuple[int, int, int]:
     # num_problems_prior = 200
     # num_problems_train = 1000
     # num_problems_test = 200
-    num_problems_prior = 50
+    num_problems_prior = 53
     num_problems_train = 100
     num_problems_test = 50
     return num_problems_prior, num_problems_train, num_problems_test
@@ -64,7 +64,7 @@ def specify_size_of_datasets() -> Tuple[int, int, int]:
 
 def specify_number_of_samples_from_prior() -> int:
     # num_samples_prior = 200
-    num_samples_prior = 50
+    num_samples_prior = 59
     return num_samples_prior
 
 
@@ -264,9 +264,9 @@ def exp_loss_histogram_with_pac_bound():
      samples_prior,
      log_prior_density,
      log_prior_marginals,
-     log_posterior_density) = pac_bayes_optimizer(suff_stat=sufficient_statistics, nat_param=natural_parameters,
-                                                  priors=prior, data=param_problem['train'],
-                                                  num_samples_prior=num_samples_prior,
+     log_posterior_density) = pac_bayes_optimizer(sufficient_statistics=sufficient_statistics,
+                                                  natural_parameters=natural_parameters, priors=prior,
+                                                  data=param_problem['train'], num_samples_prior=num_samples_prior,
                                                   batch_size_opt_lamb=num_problems_train, eps=eps)
 
     losses_learned, losses_std = compute_losses_over_iterations(

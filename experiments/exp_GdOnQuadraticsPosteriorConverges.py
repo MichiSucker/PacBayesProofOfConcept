@@ -149,11 +149,8 @@ def exp_posterior_distribution_of_const_step_gradient_descent():
 
         # Get samples_prior from prior, as well as prior and posterior density on those samples_prior
         _, _, samples_prior, log_prior_density, log_prior_marginals, log_posterior_density = pac_bayes_optimizer(
-            suff_stat=sufficient_statistics, nat_param=natural_parameters, priors=priors,
-            data=parameters['train'],
-            num_samples_prior=torch.tensor(num_samples_prior),
-            batch_size_opt_lamb=n_train,
-            eps=eps)
+            sufficient_statistics=sufficient_statistics, natural_parameters=natural_parameters, priors=priors,
+            data=parameters['train'], num_samples_prior=num_samples_prior, batch_size_opt_lamb=n_train, eps=eps)
 
         samples_plotting, density_posterior_plotting = get_samples_and_density_for_plotting(
             samples_prior=samples_prior[hyperparameter_name], log_density=log_posterior_density)

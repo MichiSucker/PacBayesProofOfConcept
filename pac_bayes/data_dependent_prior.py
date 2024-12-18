@@ -55,8 +55,7 @@ def iterative_prior(prior: dict,
     for i in range(num_it):
 
         learned_hyperparameters, _, samples_prior, _, _, log_posterior_density = pac_bayes_optimizer(
-            sufficient_statistics, natural_parameters,
-            prior, data, num_samples_prior, batch_size_opt_lamb, eps)
+            sufficient_statistics, natural_parameters, prior, data, num_samples_prior, batch_size_opt_lamb, eps)
         samples_prior, log_posterior_density = filter_samples_based_on_guarantee(
             samples_prior=samples_prior,
             num_samples_prior=num_samples_prior,

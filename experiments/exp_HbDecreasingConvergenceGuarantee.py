@@ -280,9 +280,9 @@ def exp_heavy_ball_with_decreasing_convergence_guarantee():
          samples_prior,
          log_prior_density,
          log_prior_marginals,
-         log_posterior_density) = pac_bayes_optimizer(suff_stat=sufficient_statistics, nat_param=natural_parameters,
-                                                      priors=prior, data=param_problem['train'],
-                                                      num_samples_prior=num_samples_prior,
+         log_posterior_density) = pac_bayes_optimizer(sufficient_statistics=sufficient_statistics,
+                                                      natural_parameters=natural_parameters, priors=prior,
+                                                      data=param_problem['train'], num_samples_prior=num_samples_prior,
                                                       batch_size_opt_lamb=num_problems_train, eps=eps)
 
         losses_learned, losses_std = compute_loss_over_iterations(
