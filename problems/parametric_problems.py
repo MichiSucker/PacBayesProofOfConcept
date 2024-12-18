@@ -1,36 +1,6 @@
 from typing import Tuple, Callable
-
 import torch
 import numpy as np
-
-
-
-def setup_quadratic_with_variable_curvature_without_rand_perm(dim, N_prior, N_train, N_test, mu, L):
-
-    # Create diagonal of quadratic matrix of the quadratic problem
-    diagonal = [torch.linspace(torch.sqrt(mu[i]), torch.sqrt(L[i]), dim) for i in range(N_prior + N_train + N_test)]
-    diag_prior, diag_train, diag_test = diagonal[:N_prior], diagonal[N_prior:N_prior+N_train], diagonal[N_prior+N_train:]
-
-    # Sample rhs of quadratic problem
-    mean = torch.randint(-5, 5, (dim, )) + torch.randn(dim).reshape((dim,))
-    cov = torch.randint(-5, 5, (dim, dim)) + torch.randn(dim * dim).reshape((dim, dim))
-    cov = cov.transforms @ cov
-    B_train = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((N_train, ))
-    B_prior = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((N_prior, ))
-    B_test = torch.distributions.multivariate_normal.MultivariateNormal(mean, cov).sample((N_test, ))
-
-    # Specify loss function and corresponding gradient
-    loss_func = lambda x, param: 0.5 * torch.linalg.norm(torch.matmul(param['algo'], x) - param['b']) ** 2
-    grad_func = lambda x, param: torch.matmul(torch.t(param['algo']), torch.matmul(param['algo'], x) - param['b'])
-
-    # Setup dict with all the parameters
-    param_problem = {
-        'prior': np.array([{'algo': torch.diag(diag_prior[i]), 'b': B_prior[i, :]} for i in range(N_prior)]),
-        'train': np.array([{'algo': torch.diag(diag_train[i]), 'b': B_train[i, :]} for i in range(N_train)]),
-        'test': np.array([{'algo': torch.diag(diag_test[i]), 'b': B_test[i, :]} for i in range(N_test)])
-    }
-
-    return param_problem, loss_func, grad_func
 
 
 def setup_random_quadratic_problems_with_fixed_curvature(
