@@ -17,7 +17,7 @@ def get_sufficient_statistics(emp_conv_est, num_problems_train):
     return f
 
 
-def exp_HB_conv_probability():
+def exp_heavy_ball_convergence_probability():
 
     width = 234.8775    # AISTATS
     #width = 469.75499   # Arxiv
@@ -140,10 +140,11 @@ def exp_HB_conv_probability():
         ax.scatter([conv_prob] * num_subsamples, empirical_conv_probabilities,
                    marker='x', s=5, color=dot_color)
 
-    ax.set(xlabel='$\epsilon_{conv}$', ylabel='$\hat{p}(\\alpha)$')
+    ax.set(xlabel='$\\epsilon_{\\rm{conv}}$', ylabel='$\\hat{p}(\\alpha)$')
     ax.set_xticks(np.arange(0.0, 1.1, 0.1))
     ax.grid('on')
-    PATH = '/home/michael/Desktop/Figures/AISTATS2023/'
-    plt.savefig(PATH + 'emp_conv_prob.pdf', dpi=300, bbox_inches='tight')
+
+    savings_path = '/home/michael/Desktop/AISTATS_2023/experiments/convergence_probability/'
+    plt.savefig(savings_path + 'emp_conv_prob.pdf', dpi=300, bbox_inches='tight')
 
     plt.show()
