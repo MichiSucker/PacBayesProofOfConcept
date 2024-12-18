@@ -185,8 +185,13 @@ def create_subsample_from_dataset(dataset, size):
     return dataset[subsample_idx]
 
 
-def compute_convergence_probability(dataset, loss_func, grad_func, algorithm_with_iterates, x_0,
-                                    learned_hyperparameters, num_iterations):
+def compute_convergence_probability(dataset: list,
+                                    loss_func: Callable,
+                                    grad_func: Callable,
+                                    algorithm_with_iterates: Callable,
+                                    x_0: torch.Tensor,
+                                    learned_hyperparameters: dict,
+                                    num_iterations: int) -> float:
     convergence = 0
     for p in dataset:
         it_learned = torch.stack(
@@ -200,11 +205,15 @@ def compute_convergence_probability(dataset, loss_func, grad_func, algorithm_wit
     return conv_prob_test
 
 
-def add_result_to_plot(ax, conv_prob, number_of_trials, empirical_conv_probabilities, dot_color):
+def add_result_to_plot(ax,
+                       conv_prob: torch.Tensor,
+                       number_of_trials: int,
+                       empirical_conv_probabilities: list,
+                       dot_color: str) -> None:
     ax.scatter([conv_prob] * number_of_trials, empirical_conv_probabilities, marker='x', s=5, color=dot_color)
 
 
-def finalize_plot(ax, linecolor):
+def finalize_plot(ax, linecolor: str) -> None:
     ax.plot(np.arange(0.0, 1.1, 0.1), np.arange(0.0, 1.1, 0.1), linestyle='dashed', color=linecolor)
     ax.set(xlabel='$\\epsilon_{\\rm{conv}}$', ylabel='$\\hat{p}(\\alpha)$')
     ax.set_xticks(np.arange(0.0, 1.1, 0.1))
