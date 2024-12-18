@@ -38,8 +38,7 @@ def specify_colors() -> Tuple[str, str]:
 
 
 def specify_convergence_probabilities() -> torch.Tensor:
-    # convergence_probabilities = torch.arange(0.05, 0.96, 0.01)
-    convergence_probabilities = torch.arange(0.05, 0.96, 0.45)
+    convergence_probabilities = torch.arange(0.05, 0.96, 0.01)
     return convergence_probabilities
 
 
@@ -52,8 +51,7 @@ def specify_setup() -> Tuple[int, torch.Tensor, torch.Tensor, int]:
 
 
 def specify_number_of_samples_from_prior() -> int:
-    # num_samples_prior = 150
-    num_samples_prior = 25
+    num_samples_prior = 150
     return num_samples_prior
 
 
