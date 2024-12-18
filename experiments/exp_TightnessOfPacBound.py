@@ -175,13 +175,10 @@ def create_data_dependent_prior(
         smoothness_constant=smoothness_constant, conv_prob=conv_prob, std_hyperparams=std_hyperparams)
 
     # Create data-dependent prior on prior-dataset
-    prior, list_of_priors = iterative_prior(prior=prior, prior_dict=prior_dict,
-                                            suff_stat=suff_stat, nat_param=nat_param,
-                                            num_samples_prior=num_samples_prior,
-                                            data=data,
-                                            batch_size_opt_lamb=len(data),
-                                            eps=eps, num_it=2,
-                                            conv_check=conv_check, conv_prob=conv_prob,
+    prior, list_of_priors = iterative_prior(prior=prior, prior_dict=prior_dict, sufficient_statistics=suff_stat,
+                                            natural_parameters=nat_param, num_samples_prior=num_samples_prior,
+                                            data=data, batch_size_opt_lamb=len(data), eps=eps, num_it=2,
+                                            conv_check=conv_check, convergence_probability=conv_prob,
                                             test_data=test_data)
     return prior
 
