@@ -8,7 +8,8 @@ from algorithms.optimization_algorithms import (heavy_ball_const_hyperparam, hea
 from problems.parametric_problems import setup_quadratic_with_variable_curvature_with_rand_perm
 from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
 from pac_bayes.Prior import iterative_prior
-from helper.helper_functions import empirical_convergence_risk, converged, empirical_conv_estimates, set_size
+from helper.for_estimation import empirical_convergence_risk, converged, empirical_conv_estimates
+from helper.for_plotting import set_size
 
 
 def specify_plot_layout() -> float:
@@ -52,14 +53,18 @@ def specify_setup() -> Tuple[int, torch.Tensor, int, torch.Tensor, torch.Tensor]
 
 
 def specify_size_of_datasets() -> Tuple[int, int, int]:
-    num_problems_prior = 200
-    num_problems_train = 1000
-    num_problems_test = 200
+    # num_problems_prior = 200
+    # num_problems_train = 1000
+    # num_problems_test = 200
+    num_problems_prior = 50
+    num_problems_train = 100
+    num_problems_test = 50
     return num_problems_prior, num_problems_train, num_problems_test
 
 
 def specify_number_of_samples_from_prior() -> int:
-    num_samples_prior = 200
+    # num_samples_prior = 200
+    num_samples_prior = 50
     return num_samples_prior
 
 

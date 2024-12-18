@@ -4,7 +4,8 @@ from typing import Callable, Tuple, List
 
 from pac_bayes.PAC_Bayes_Optimizer import pac_bayes_optimizer
 from algorithms.optimization_algorithms import gradient_descent_const_step, gradient_descent_const_step_with_iterates
-from helper.helper_functions import empirical_risk, empirical_sq_risk, set_size
+from helper.for_estimation import empirical_risk, empirical_sq_risk
+from helper.for_plotting import set_size
 from problems.parametric_problems import setup_random_quadratic_problems_with_fixed_curvature
 
 
