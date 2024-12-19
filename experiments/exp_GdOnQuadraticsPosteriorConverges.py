@@ -169,6 +169,6 @@ def exp_posterior_distribution_of_const_step_gradient_descent():
     ax.legend()
 
     PATH = '/home/michael/Desktop/AISTATS_2023/experiments/convergence_of_posterior/'
-    plt.savefig(PATH + 'GD_posterior_distribution.pdf', dpi=300, bbox_inches='tight')
-    plt.savefig(PATH + 'GD_posterior_distribution.png', dpi=300, bbox_inches='tight')
+    plt.savefig(PATH + 'convergence_posterior_distribution.pdf', dpi=300, bbox_inches='tight')
+    plt.savefig(PATH + 'convergence_posterior_distribution.png', dpi=300, bbox_inches='tight')
     plt.show()

@@ -300,6 +300,6 @@ def exp_heavy_ball_with_decreasing_convergence_guarantee():
     ax.legend(loc='lower left')
 
     savings_path = '/home/michael/Desktop/AISTATS_2023/experiments/decreasing_convergence_guarantee/'
-    plt.savefig(savings_path + 'heavy_ball.pdf', dpi=300, bbox_inches='tight')
-    plt.savefig(savings_path + 'heavy_ball.png', dpi=300, bbox_inches='tight')
+    plt.savefig(savings_path + 'conditioning_on_convergence.pdf', dpi=300, bbox_inches='tight')
+    plt.savefig(savings_path + 'conditioning_on_convergence.png', dpi=300, bbox_inches='tight')
     plt.show()
