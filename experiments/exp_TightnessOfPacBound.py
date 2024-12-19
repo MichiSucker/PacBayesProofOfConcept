@@ -275,4 +275,5 @@ def exp_loss_histogram_with_pac_bound():
     finalize_plot(ax=ax, losses_std=losses_std.numpy(), losses_learned=losses_learned.numpy(), pac_bound=pac_bound)
     PATH = '/home/michael/Desktop/AISTATS_2023/experiments/tightness_pac_bound/'
     plt.savefig(PATH + 'loss_histogram_with_pac_bound.pdf', dpi=300, bbox_inches='tight')
+    plt.savefig(PATH + 'loss_histogram_with_pac_bound.png', dpi=300, bbox_inches='tight')
     plt.show()

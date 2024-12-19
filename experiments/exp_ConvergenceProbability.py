@@ -280,4 +280,5 @@ def exp_heavy_ball_convergence_probability():
     finalize_plot(ax=ax, linecolor=linecolor)
     savings_path = '/home/michael/Desktop/AISTATS_2023/experiments/convergence_probability/'
     plt.savefig(savings_path + 'emp_conv_prob.pdf', dpi=300, bbox_inches='tight')
+    plt.savefig(savings_path + 'emp_conv_prob.png', dpi=300, bbox_inches='tight')
     plt.show()
